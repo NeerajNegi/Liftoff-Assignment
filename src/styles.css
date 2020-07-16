@@ -11,7 +11,7 @@
   height: 100px;
   width: 100px;
   border-radius: 50%;
-  border: 5px solid red;
+  border: 5px solid #deabbb;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -21,4 +21,22 @@
 .error {
   color: rgb(224, 0, 0);
   font-size: 0.8rem;
+}
+
+.circle-background,
+.circle-progress {
+  fill: none;
+}
+
+.circle-background {
+  stroke: #ddd;
+}
+
+.circle-progress {
+  stroke: #ddaaba;
+}
+
+.circle-text {
+  font-size: 2em;
+  font-weight: bold;
 }

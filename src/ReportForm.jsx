@@ -19,17 +19,19 @@ const ReportForm = () => {
   });
 
   const validate = () => {
-    const updatedErrors = errors;
+    const updatedErrors = { ...errors };
     if (!startDate) {
       updatedErrors.startDate = "Enter a start date";
     }
     if (!endDate) {
       updatedErrors.endDate = "Enter an end date";
     }
-    if (new Date(startDate) > new Date(endDate)) {
+    const startDateTime = new Date(startDate).getTime();
+    const endDateTime = new Date(endDate).getTime();
+    if (startDateTime === endDateTime || startDateTime > endDateTime) {
       updatedErrors.startDate = "Start date should be before the end date";
     }
-    if (!value || (+value < 1 && +value > 100)) {
+    if (!+value || (+value < 1 || +value > 100)) {
       updatedErrors.value = "Enter a value between 1-100";
     }
     if (!name) {
@@ -41,9 +43,7 @@ const ReportForm = () => {
       updatedErrors.startDate ||
       updatedErrors.endDate
     ) {
-      console.log(updatedErrors);
       setErrors(updatedErrors);
-      console.log(errors);
       return false;
     }
     return true;
@@ -52,6 +52,8 @@ const ReportForm = () => {
   const submitForm = () => {
     if (validate()) {
       setIsReportVisible(true);
+    } else {
+      setIsReportVisible(false);
     }
   };
 
@@ -67,6 +69,8 @@ const ReportForm = () => {
               onChange={e => {
                 e.persist();
                 setName(e.target.value);
+                setIsReportVisible(false);
+                setErrors({ ...errors, name: "" });
               }}
             />
             {errors.name && <div className="error">{errors.name}</div>}
@@ -79,6 +83,8 @@ const ReportForm = () => {
               onChange={e => {
                 e.persist();
                 setValue(e.target.value);
+                setIsReportVisible(false);
+                setErrors({ ...errors, value: "" });
               }}
             />
             {!errors.value && (
@@ -86,7 +92,7 @@ const ReportForm = () => {
                 Between 1-100
               </small>
             )}
-            {errors.value && <div className="error">errors.value</div>}
+            {errors.value && <div className="error">{errors.value}</div>}
           </div>
         </div>
         <div className="form-row">
@@ -102,6 +108,8 @@ const ReportForm = () => {
               onChange={e => {
                 e.persist();
                 setStartDate(e.target.value);
+                setIsReportVisible(false);
+                setErrors({ ...errors, startDate: "", endDate: "" });
               }}
             />
             {errors.startDate && (
@@ -120,6 +128,8 @@ const ReportForm = () => {
               onChange={e => {
                 e.persist();
                 setEndDate(e.target.value);
+                setIsReportVisible(false);
+                setErrors({ ...errors, endDate: "", startDate: "" });
               }}
             />
             {errors.endDate && <div className="error">{errors.endDate}</div>}
@@ -138,6 +148,7 @@ const ReportForm = () => {
           </div>
         </div>
       </form>
+
       {isReportVisible && (
         <Report
           name={name}
