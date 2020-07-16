@@ -1,0 +1,24 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.form-row {
+  margin-top: 1rem;
+}
+
+.value-container {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  border: 5px solid red;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  color: rgb(224, 0, 0);
+  font-size: 0.8rem;
+}
