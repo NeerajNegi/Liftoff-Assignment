@@ -8,7 +8,7 @@ const Report = ({ name, value, startDate, endDate }) => {
       <h1>{name}</h1>
       <p>Start Date: {startDate}</p>
       <p>End Date: {endDate}</p>
-      <ProgressCircle percentage={value ? value : 0} size={150} />
+      <ProgressCircle percentage={value | 0} size={150} />
     </div>
   );
 };

@@ -20,29 +20,30 @@ const ReportForm = () => {
 
   const validate = () => {
     const updatedErrors = { ...errors };
+    let isError = false;
     if (!startDate) {
       updatedErrors.startDate = "Enter a start date";
+      isError = true;
     }
     if (!endDate) {
       updatedErrors.endDate = "Enter an end date";
+      isError = true;
     }
     const startDateTime = new Date(startDate).getTime();
     const endDateTime = new Date(endDate).getTime();
-    if (startDateTime === endDateTime || startDateTime > endDateTime) {
+    if (startDateTime >= endDateTime) {
       updatedErrors.startDate = "Start date should be before the end date";
+      isError = true;
     }
     if (!+value || (+value < 1 || +value > 100)) {
       updatedErrors.value = "Enter a value between 1-100";
+      isError = true;
     }
     if (!name) {
       updatedErrors.name = "Enter a name";
+      isError = true;
     }
-    if (
-      updatedErrors.name ||
-      updatedErrors.value ||
-      updatedErrors.startDate ||
-      updatedErrors.endDate
-    ) {
+    if (isError) {
       setErrors(updatedErrors);
       return false;
     }
@@ -67,7 +68,6 @@ const ReportForm = () => {
               required={true}
               value={name}
               onChange={e => {
-                e.persist();
                 setName(e.target.value);
                 setIsReportVisible(false);
                 setErrors({ ...errors, name: "" });
@@ -81,7 +81,6 @@ const ReportForm = () => {
               required={true}
               value={value}
               onChange={e => {
-                e.persist();
                 setValue(e.target.value);
                 setIsReportVisible(false);
                 setErrors({ ...errors, value: "" });
@@ -106,7 +105,6 @@ const ReportForm = () => {
                 shrink: true
               }}
               onChange={e => {
-                e.persist();
                 setStartDate(e.target.value);
                 setIsReportVisible(false);
                 setErrors({ ...errors, startDate: "", endDate: "" });
@@ -126,7 +124,6 @@ const ReportForm = () => {
                 shrink: true
               }}
               onChange={e => {
-                e.persist();
                 setEndDate(e.target.value);
                 setIsReportVisible(false);
                 setErrors({ ...errors, endDate: "", startDate: "" });
